@@ -1,13 +1,16 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Navbar from "../components/navbar/Navbar";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "../contexts/auth/AuthProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Navbar />
-      <Toaster />
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Navbar />
+        <Toaster />
+        <Component {...pageProps} />
+      </AuthProvider>
     </>
   );
 }

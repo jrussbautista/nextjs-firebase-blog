@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { useAuth } from "../../contexts/auth/useAuth";
 
 const Navbar = () => {
-  const user = null;
+  const { user } = useAuth();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,7 +16,14 @@ const Navbar = () => {
           {user ? (
             <li className="nav-item">
               <Link href="/account">
-                <a className="nav-link">Account</a>
+                <a className="nav-link">
+                  <img
+                    src={user.photoURL}
+                    alt={user.displayName}
+                    width="50"
+                    className="rounded-circle "
+                  />
+                </a>
               </Link>
             </li>
           ) : (
