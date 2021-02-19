@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Navbar from "../components/navbar/Navbar";
+import "../styles/globals.css";
+import Navbar from "../components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "../contexts/auth/AuthProvider";
 

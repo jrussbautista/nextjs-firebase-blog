@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  color: inherit;
+  color: var(--bs-dark);
   text-decoration: none;
 }
 

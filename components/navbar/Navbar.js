@@ -12,20 +12,27 @@ const Navbar = () => {
           <a className="navbar-brand">Dev</a>
         </Link>
 
-        <ul className="navbar-nav">
+        <ul className="navbar-nav flex-row align-items-center">
           {user ? (
-            <li className="nav-item">
-              <Link href="/account">
-                <a className="nav-link">
-                  <img
-                    src={user.photoURL}
-                    alt={user.displayName}
-                    width="50"
-                    className="rounded-circle "
-                  />
-                </a>
-              </Link>
-            </li>
+            <>
+              <li className="nav-item me-3">
+                <Link href={`user/${user.uid}`}>
+                  <a className="btn btn-primary">Create Post</a>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href={`user/${user.uid}`}>
+                  <a className="nav-link">
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName}
+                      width="50"
+                      className="rounded-circle "
+                    />
+                  </a>
+                </Link>
+              </li>
+            </>
           ) : (
             <li className="nav-item">
               <Link href="/signin">
