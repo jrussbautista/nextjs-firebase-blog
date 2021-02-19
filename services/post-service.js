@@ -2,6 +2,37 @@ import { db, postToJSON } from "../lib/firebase";
 
 const LIMIT = 10;
 
+const getAllPosts = async () => {
+  const postsRef = db.collection("posts");
+  const getPostsRef = await postsRef.get();
+
+  const paths = getPostsRef.docs.map((path) => {
+    const { slug } = path.data();
+    return {
+      params: { slug },
+    };
+  });
+
+  return paths;
+};
+
+const getPostBySlug = async (slug) => {
+  const postsRef = db.collection("posts").where("slug", "==", slug);
+  const getPostsRef = await postsRef.get();
+
+  if (getPostsRef.empty) {
+    throw new Error("Post not found");
+  }
+
+  const post = getPostsRef.docs[0];
+  const postData = postToJSON(post);
+
+  return {
+    id: post.id,
+    ...postData,
+  };
+};
+
 const getPosts = async () => {
   const postsRef = db
     .collection("posts")
@@ -52,4 +83,6 @@ const getMorePosts = async (cursor) => {
 export const PostService = {
   getPosts,
   getMorePosts,
+  getPostBySlug,
+  getAllPosts,
 };

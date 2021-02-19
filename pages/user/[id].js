@@ -27,6 +27,13 @@ export async function getServerSideProps({ query }) {
   const { id } = query;
 
   const user = await UserService.getUserById(id);
+
+  if (!user) {
+    return {
+      notFound: true,
+    };
+  }
+
   const posts = await UserService.getUserPosts(id);
 
   return {

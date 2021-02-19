@@ -4,6 +4,10 @@ const getUserById = async (id) => {
   const userRef = db.collection("users").doc(id);
   const getUserRef = await userRef.get();
 
+  if (!getUserRef.exists) {
+    return null;
+  }
+
   const userDoc = postToJSON(getUserRef);
 
   return {
