@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fromMillis } from "../lib/firebase";
 import { PostService } from "../services/post-service";
 import PostList from "../components/PostList";
+import MetaTags from "../components/MetaTags";
 import toast from "react-hot-toast";
 
 export default function Home({ posts: currentPosts }) {
@@ -35,6 +36,7 @@ export default function Home({ posts: currentPosts }) {
 
   return (
     <div className="container my-4">
+      <MetaTags title="Home" />
       <h1> Recent Posts </h1>
       {posts.length > 0 ? (
         <PostList posts={posts} />

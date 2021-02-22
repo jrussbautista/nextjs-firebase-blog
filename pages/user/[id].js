@@ -2,10 +2,12 @@ import React from "react";
 import UserProfile from "../../components/UserProfile";
 import { UserService } from "../../services/user-service";
 import PostList from "../../components/PostList";
+import MetaTags from "../../components/MetaTags";
 
 const UserPage = ({ user, posts }) => {
   return (
-    <div className="container">
+    <div className="container mt-5">
+      <MetaTags title={user.displayName} />
       <UserProfile user={user} />
       <div className="my-3">
         <h2> Posts </h2>

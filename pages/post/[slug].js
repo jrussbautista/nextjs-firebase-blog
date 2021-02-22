@@ -1,10 +1,12 @@
 import React from "react";
 import PostContent from "../../components/PostContent";
+import MetaTags from "../../components/MetaTags";
 import { PostService } from "../../services/post-service";
 
 const PostPage = ({ post }) => {
   return (
     <div className="container">
+      <MetaTags title={post.title} />
       <PostContent post={post} />
     </div>
   );

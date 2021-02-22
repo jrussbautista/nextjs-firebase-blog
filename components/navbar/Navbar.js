@@ -16,12 +16,12 @@ const Navbar = () => {
           {user ? (
             <>
               <li className="nav-item me-3">
-                <Link href={`user/${user.uid}`}>
+                <Link href="/create">
                   <a className="btn btn-primary">Create Post</a>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href={`user/${user.uid}`}>
+                <Link href={`/user/${user.uid}`}>
                   <a className="nav-link">
                     <img
                       src={user.photoURL}
