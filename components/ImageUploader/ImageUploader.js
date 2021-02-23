@@ -50,7 +50,7 @@ const ImageUploader = () => {
       {uploading && (
         <div className="text-center mb-2">
           <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       )}
@@ -66,11 +66,11 @@ const ImageUploader = () => {
 
       {!uploading && (
         <>
-          <label htmlFor="image" class="form-label">
+          <label htmlFor="image" className="form-label">
             Image
           </label>
           <input
-            class="form-control"
+            className="form-control"
             type="file"
             id="image"
             accept="image/x-png,image/gif,image/jpeg"
