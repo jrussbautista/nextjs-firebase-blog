@@ -17,7 +17,15 @@ export default PostPage;
 export async function getStaticProps({ params }) {
   const { slug } = params;
 
-  const post = await PostService.getPostBySlug(slug);
+  let post;
+
+  try {
+    post = await PostService.getPostBySlug(slug);
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {

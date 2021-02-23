@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import slugify from "../../utils/slugify";
 import ReactMarkdown from "react-markdown";
+import ImageUploader from "../ImageUploader/ImageUploader";
 
-const CreatePostForm = ({ submit }) => {
+const CreatePostForm = ({ submit, loading }) => {
   const [isOpenPreview, setIsOpenPreview] = useState(false);
 
   const { register, handleSubmit, watch, errors } = useForm({
@@ -17,7 +18,7 @@ const CreatePostForm = ({ submit }) => {
   const slug = slugify(watch("title"));
 
   const onSubmit = (data) => {
-    submit(data);
+    submit({ ...data, slug });
   };
 
   const togglePreview = () => {
@@ -26,6 +27,7 @@ const CreatePostForm = ({ submit }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <ImageUploader />
       <div className="mb-3">
         <label htmlFor="exampleFormControlInput1" className="form-label">
           Title
@@ -85,7 +87,7 @@ const CreatePostForm = ({ submit }) => {
         {watch("content") && (
           <div className="d-flex justify-end">
             <button
-              className="btn btn-primary mt-3"
+              className="btn btn-primary mt-2 mb-2"
               type="button"
               onClick={togglePreview}
             >
@@ -95,13 +97,9 @@ const CreatePostForm = ({ submit }) => {
             </button>
           </div>
         )}
-      </div>
 
-      {isOpenPreview && (
-        <div className="mb-3">
-          <ReactMarkdown>{watch("content")}</ReactMarkdown>
-        </div>
-      )}
+        {isOpenPreview && <ReactMarkdown>{watch("content")}</ReactMarkdown>}
+      </div>
 
       <div className="form-check mb-3">
         <input
@@ -117,8 +115,8 @@ const CreatePostForm = ({ submit }) => {
         </label>
       </div>
       <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Create
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? "Creating..." : "Create"}
         </button>
       </div>
     </form>

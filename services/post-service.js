@@ -1,4 +1,4 @@
-import { db, postToJSON } from "../lib/firebase";
+import { db, auth, postToJSON, serverTimestamp } from "../lib/firebase";
 
 const LIMIT = 10;
 
@@ -80,9 +80,39 @@ const getMorePosts = async (cursor) => {
   };
 };
 
+const createPost = async (post) => {
+  const { currentUser } = auth;
+
+  if (!currentUser) throw new Error("Please login first");
+
+  const { uid, displayName } = currentUser;
+
+  const postsRef = db.collection("posts");
+
+  const newPost = {
+    ...post,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    heartCount: 0,
+    uid,
+    user: {
+      displayName,
+      uid,
+    },
+  };
+
+  const { id } = await postsRef.add(newPost);
+
+  return {
+    id,
+    ...newPost,
+  };
+};
+
 export const PostService = {
   getPosts,
   getMorePosts,
   getPostBySlug,
   getAllPosts,
+  createPost,
 };

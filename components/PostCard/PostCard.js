@@ -8,7 +8,6 @@ const PostCard = ({ post }) => {
         <Link href={`/post/${post.slug}`}>
           <a>
             <h3>{post.title}</h3>
-            <p>{post.content}</p>
           </a>
         </Link>
       </div>
