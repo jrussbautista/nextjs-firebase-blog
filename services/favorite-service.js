@@ -1,4 +1,4 @@
-import { auth, db, increment } from "../lib/firebase";
+import { auth, db, increment, serverTimestamp } from "../lib/firebase";
 
 const checkFavoritedPost = async (postId) => {
   const { currentUser } = auth;
@@ -30,10 +30,16 @@ const toggleFavorite = async (postId) => {
     : db.collection("favorites").doc();
 
   if (result) {
-    batch.update(postsRef, { heartCount: increment(-1) });
+    batch.update(postsRef, {
+      heartCount: increment(-1),
+      updatedAt: serverTimestamp(),
+    });
     batch.delete(favoritesRef);
   } else {
-    batch.update(postsRef, { heartCount: increment(1) });
+    batch.update(postsRef, {
+      heartCount: increment(1),
+      updatedAt: serverTimestamp(),
+    });
     batch.set(favoritesRef, { userId: currentUser.uid, postId });
   }
 

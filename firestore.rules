@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // users collection   
+    match /users/{userId} {
+      allow read; 
+      allow create: if isAuthenticated() && isOwner(userId) && isNow(incomingData().createdAt); 
+    }
+
+    //posts collection 
+    match /posts/{postId} {
+      allow read;
+      allow create: if canCreatePost();
+      allow update: if canUpdatePost();
+      allow delete: if canDeletePost();
+    }
+
+    match /favorites/{favoriteId} {
+      allow read;
+      allow create: if isAuthenticated() && isOwner(incomingData().userId);
+      allow delete: if isAuthenticated() && isOwner(resource.data.userId);
+    }
+
+    
+    // functions
+
+    function canCreatePost() {
+        let isValidHeartCount = request.resource.data.heartCount == 0;
+        let isValidContent = request.resource.data.content.size() < 20000;
+        let isValidTitle = request.resource.data.title.size() > 6;
+        return isAuthenticated() && isOwner(incomingData().uid) && isNow(incomingData().createdAt) && isValidContent && isValidHeartCount && isValidTitle;
+    }
+
+    function canUpdatePost() {
+        let isValidContent = request.resource.data.content.size() < 20000;
+        let isValidTitle = request.resource.data.title.size() > 6;
+        let doesNotUpdateForbidden = !request.resource.data.diff(request.resource.data).affectedKeys().hasAny(['uid', 'user']);
+        return isAuthenticated() && isOwner(incomingData().uid) && isNow(incomingData().updatedAt) && isValidContent  && isValidTitle && doesNotUpdateForbidden;
+    }
+
+    function canDeletePost() {
+        return isAuthenticated() && isOwner(incomingData().uid);
+    }
+
+    function incomingData() {
+    	return request.resource.data;
+    }
+
+    function isOwner(userId) {
+    	return request.auth.uid == userId;
+    }
+
+    function isNow(field) {
+        return request.time == field;
+    }
+    
+    function isAuthenticated() {
+    	return request.auth != null;
+    }
+
+
+  }
+}

@@ -16,6 +16,9 @@ const CreatePage = () => {
       const url = `/post/${results.slug}`;
       Router.push(url);
     } catch (error) {
+      toast.error(
+        "Sorry! We've unable to create your post. Please try again later."
+      );
       setIsSubmitting(false);
     }
   };
